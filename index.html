@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Game</title>
+    <style>
+        canvas{
+            background-color: black;
+        }
+
+        #add-ball{
+            position:absolute;
+            top: 10px;
+            right: 10px;
+            background-color: blueviolet;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<canvas id="gameCanvas" width="800" height="800"></canvas>
+<div  id="add-ball">Add ball</div>
+<script>
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');       //creatCircle, createRectangle, createTriangle, createLine
+
+const DECIMAL_MULTIPLIER = 1000;
+
+/*Constants*/
+
+const WIDTH = 800;
+const HEIGHT = 800;
+const ballRadius = 7;
+const obstacleRadius = 4; //less than ball
+const gravity = pad(0.2);  //reasonable choice of gravity after trying few(not considering time so no g=9.8)
+const horizontalFriction = 0.4;
+const verticalFriction = 0.8;
+let balls = [];  //stores the  balls that are falling
+
+const obstacles = [];  //stores the obstacles present in current state of game
+const sinks = [];  //the sinks where ball reaches in the end
+
+//padding function to avoid getting the decimals(avoiding precision error)
+function pad(n)
+{
+return n*DECIMAL_MULTIPLIER;
+}
+
+//unpad function
+function unpad(n)
+{
+    return Math.floor(n/DECIMAL_MULTIPLIER);
+}
+
+//Creating a obstacle pyramid
+const rows = 16;
+for(let row=2;row<rows;row++)
+{ 
+const numOfObstacles = rows+1;  //like row=2 will be 3
+const y = 0 + rows*35;
+const spacing = 36;   //picked spacing based on some hit n trial
+for(let col = 0; col<numOfObstacles;col++)
+{
+const x = WIDTH/2 - spacing * (row/2 - col);  //formulae to place obstacles
+obstacles.push({x : pad(x), y : pad(y), radius : obstacleRadius});  //pushing obstacle obj in array
+}
+
+}
+    
+</script>    
+</body>
+</html>

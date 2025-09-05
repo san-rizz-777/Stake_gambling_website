@@ -68,7 +68,19 @@ for(let col = 0; col<numOfObstacles;col++)
 const x = WIDTH/2 - spacing * (row/2 - col);  //formulae to place obstacles
 obstacles.push({x : pad(x), y : pad(y), radius : obstacleRadius});  //pushing obstacle obj in array
 }
+}
 
+//Create sinks at the bottom of the rectangle
+const sinkWidth = 36;
+const NUM_SINKS = 15;
+
+for(let i=0;i<NUM_SINKS;i++)
+{
+    const x =  (WIDTH/2) + (i-15/2)*(sinkWidth) + (obstacleRadius);
+    const y =  HEIGHT - 240;
+    const width  = sinkWidth;
+    const height =  width;
+    sinks.push({x,y,width,height});
 }
     
 </script>    

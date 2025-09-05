@@ -76,11 +76,26 @@ const NUM_SINKS = 15;
 
 for(let i=0;i<NUM_SINKS;i++)
 {
-    const x =  (WIDTH/2) + (i-15/2)*(sinkWidth) + (obstacleRadius);
-    const y =  HEIGHT - 240;
+    const x =  (WIDTH/2) + (i-15/2)*(sinkWidth) + (obstacleRadius);   //obstacleRadius for slight padding  
+    const y =  HEIGHT - 240;   
     const width  = sinkWidth;
     const height =  width;
     sinks.push({x,y,width,height});
+}
+
+//obstacles, sink
+//Encapsulating the code
+class Ball{
+
+    constructor(x,y,radius,color)
+    {
+this.x = x;
+this.y = y;
+this.radius = radius;
+this.vx = 0;
+this.vy = 0;
+    }
+
 }
     
 </script>    

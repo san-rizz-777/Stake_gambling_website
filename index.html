@@ -98,7 +98,7 @@ this.vy = 0;
 
  draw() {
     ctx.beginPath();
-    ctx.arc(unpad(this.x),this.unpad(y),this.radius, 0, Math.PI*2);
+    ctx.arc(unpad(this.x),unpad(this.y),this.radius, 0, Math.PI*2);
     ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
@@ -108,8 +108,8 @@ this.vy = 0;
 update(){
     //change the velocity and position
     this.vy+=gravity;  //gravity only in y direction
-    this.x+=vx;   
-    this.y+=vy;
+    this.x+=this.vx;   
+    this.y+=this.vy;
 
     //Collisons with obstacles
     obstacles.forEach(obstacle => {
@@ -129,12 +129,84 @@ const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
     const overlap  = this.radius + obstacle.radius - unpad(dist);
     this.x += pad(Math.cos(angle)*overlap);
     this.y += pad(Math.sin(angle)*overlap);
+}
+    });
 
-}
-    })
+    //Collisions with the sinks
+    sinks.forEach(sink => {
+     //It should be between the sinks 
+        if(
+            unpad(this.x) > sink.x - sink.width/2 &&
+            unpad(this.x) < sink.x + sink.width/2 &&
+            unpad(this.y) + this.radius > sink.y  - sink.height/2
+    )
+    //Then slows the ball down and goes out of context
+    {
+        this.x = 0;
+        this.y = 0;
+    }
+});
+    }
 }
 
+//instantiates the ball object
+const intialBall = new Ball(pad(WIDTH/2 + 23),pad(50), ballRadius, 'red');
+balls.push(intialBall);
+
+//Function to render the obstacles
+function drawObstacles()
+{
+    ctx.fillStyle = 'white';
+
+    obstacles.forEach(obstacle => {
+ctx.beginPath();
+ctx.arc(unpad(obstacle.x),unpad(obstacle.y),obstacle.radius,0,Math.PI*2);
+ctx.fill();
+ctx.closePath();
+    }
+);
 }
+
+//Function to render the sinks
+function drawSinks()
+{
+    ctx.fillStyle = 'green';
+    for(let i=0;i<sinks.length;i++)
+{
+const sink = sinks[i];
+ctx.fillRect(sink.x, sink.y - sink.height/2, sink.width - obstacleRadius*2, sink.height);
+}
+}
+
+
+//Function to add a new ball
+function addBall()
+{
+    const newBall = new Ball(pad(WIDTH/2 + 13), pad(50), ballRadius, 'red');
+    balls.push(newBall);
+}
+
+document.getElementById('add-ball').addEventListener('click',addBall);  //Instantiating a ball when the Add Ball button clicked
+
+function draw()
+{
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    drawObstacles();
+    drawSinks();
+    balls.forEach(ball => {
+        ball.draw();
+        ball.update();
+    });
+}
+
+function update()
+{
+    draw();
+    requestAnimationFrame(update);
+}
+
+update();
+
     
 </script>    
 </body>

@@ -129,12 +129,27 @@ const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
     const overlap  = this.radius + obstacle.radius - unpad(dist);
     this.x += pad(Math.cos(angle)*overlap);
     this.y += pad(Math.sin(angle)*overlap);
+}
+    });
 
-}
-    })
+    //Collisions with the sinks
+    sinks.forEach(sink => {
+     //It should be between the sinks 
+        if(
+            unpad(this.x) > sink.x - sink.width/2 &&
+            unpad(this.x) < sink.x + sink.width/2 &&
+            unpad(this.y) + this.radius > sink.y  - sink.height/2
+    )
+    //Then slows the ball down and goes out of context
+    {
+        this.x = 0;
+        this.y = 0;
+    }
+});
+    }
 }
 
-}
+
     
 </script>    
 </body>

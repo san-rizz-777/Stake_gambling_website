@@ -199,6 +199,13 @@ function draw()
     });
 }
 
+function update()
+{
+    draw();
+    requestAnimationFrame(update);
+}
+
+update();
 
     
 </script>    

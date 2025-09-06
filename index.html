@@ -166,6 +166,8 @@ ctx.closePath();
     }
 );
 
+
+//Function to render the sinks
 function drawSinks()
 {
     ctx.fillStyle = 'green';
@@ -177,11 +179,26 @@ ctx.fillRect(sink.x, sink.y - sink.height/2, sink.width - obstacleRadius*2, sink
 }
 }
 
+//Function to add a new ball
 function addBall()
 {
     const newBall = new Ball(pad(WIDTH/2 + 13), pad(50), ballRadius, 'red');
     balls.push(newBall);
 }
+
+document.getElementById('add-ball').addEventListener('click',addBall);  //Instantiating a ball when the Add Ball button clicked
+
+function draw()
+{
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    drawObstacles();
+    drawSinks();
+    ball.forEach(ball => {
+        ball.draw();
+        ball.update();
+    });
+}
+
 
     
 </script>    

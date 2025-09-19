@@ -60,8 +60,8 @@ function unpad(n)
 const rows = 16;
 for(let row=2;row<rows;row++)
 { 
-const numOfObstacles = rows+1;  //like row=2 will be 3
-const y = 0 + rows*35;
+const numOfObstacles = row+1;  //like row=2 will be 3
+const y = 0 + row*35;
 const spacing = 36;   //picked spacing based on some hit n trial
 for(let col = 0; col<numOfObstacles;col++)
 {
@@ -92,6 +92,7 @@ class Ball{
 this.x = x;
 this.y = y;
 this.radius = radius;
+this.color = color;
 this.vx = 0;
 this.vy = 0;
     }
@@ -121,7 +122,7 @@ if(dist < pad(this.radius + obstacle.radius))
 const angle = Math.atan2(this.y - obstacle.y, this.x - obstacle.x);
 
     //Reflect the velocities
-    const speed = Math.sqrt((this.x*this.x) + (this.y*this.y));
+    const speed = Math.hypot(this.vx,this.vy);
     this.vx = (Math.cos(angle)*speed*horizontalFriction);
     this.vy = (Math.sin(angle)*speed*verticalFriction);
 
@@ -188,6 +189,7 @@ function addBall()
 
 document.getElementById('add-ball').addEventListener('click',addBall);  //Instantiating a ball when the Add Ball button clicked
 
+//clears the canvas and re-renders with updation of speed and positions
 function draw()
 {
     ctx.clearRect(0,0,WIDTH,HEIGHT);

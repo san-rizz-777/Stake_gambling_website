@@ -11,8 +11,8 @@ private color : string;
 private vx : number;
 private vy : number;
 private ctx : CanvasRenderingContext2D;
-private obstacles : Obstacle[];
-private sinks : Sink[];
+private obstacles : Obstacle[]
+private sinks : Sink[]
 private onFinish : (index : number) => void;
 
 //Intialisation of the class variables
@@ -30,6 +30,7 @@ this.sinks = sinks;
 this.onFinish = onFinish;
 }
 
+//Rendering of the balls
 draw()
 {
     this.ctx.beginPath();   //Start the drawing 
@@ -39,6 +40,7 @@ draw()
     this.ctx.closePath();  //Closed the path
 }
 
+//Updates the speed and position of the ball
 update()
 {
     this.vy+=gravity;
@@ -81,7 +83,7 @@ update()
         ){
 this.vx = 0;
 this.vy = 0;
-this.onFinish(i);
+this.onFinish(i);    //This onFinish function lets the BallManager know in which sink Ball has colloided
 break;
         }
         

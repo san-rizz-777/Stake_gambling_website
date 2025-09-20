@@ -2,9 +2,13 @@ import {useEffect, useState, useRef}  from "react";
 import { BallManager } from "../game/classes/BallManager";
 import {pad} from "../game/padding";
 import { WIDTH } from "../game/constants";
+import { useNavigate } from "react-router-dom";
 
-
+//Stores the location of dropping to determine which multiplier ball goes
 export function Simulation() {
+
+    const navigate = useNavigate();
+    
     const canvasRef = useRef<any>(null);
     let [outputs, setOutputs] = useState<{[key:number] : number[]}>({
     0: [],
@@ -27,6 +31,8 @@ export function Simulation() {
     17: [],
     });
 
+
+    //This function runs a infinite loop and creates a new ball per second and throws from a rendom location
     async function simulate(ballManager : BallManager)
     {
         let i = 0;
@@ -37,7 +43,8 @@ export function Simulation() {
             await new Promise(resolve => setTimeout(resolve,1000));
         }
     }
-   
+
+    
     useEffect(() => {
         if(canvasRef.current)
         {

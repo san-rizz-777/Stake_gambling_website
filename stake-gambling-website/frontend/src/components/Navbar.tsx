@@ -1,5 +1,5 @@
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Button } from "./ui";
+import { Button } from "../ui";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 

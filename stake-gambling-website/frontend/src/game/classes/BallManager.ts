@@ -1,6 +1,10 @@
+/*
+...This file basically manages multiple balls and connects the Ball and Siuimulation component.
+*/
+
 import  {HEIGHT, WIDTH, ballRadius, obstacleRadius, sinkWidth} from "../constants";
 import  { createObstacles, createSinks } from "../objects";
-import type {Obstacle,Sink} from "../objects";
+import {Obstacle,Sink} from "../objects";
 import {pad,unpad} from "../padding";
 import {Ball} from "./Ball"
 
@@ -27,12 +31,12 @@ constructor(canvasRef: HTMLCanvasElement, onFinish? : (index : number, startX?:n
 }
 
 //Instantiating object of Ball class(adding a ball to canvas)
-addBall(startX?:number)
+addBall(startX?:number)    //Starting x of fall
 {
     const newBall = new Ball(startX || pad(WIDTH/2 + 13), pad(50), ballRadius, 'red', this.ctx, this.obstacles, this.sinks, (index) => {
-this.balls = this.balls.filter(ball => ball!==newBall);
-this.onFinish?.(index,startX);
-    });
+this.balls = this.balls.filter(ball => ball!==newBall);  //Get all the balls without new ball
+this.onFinish?.(index,startX);            //Calls the onFinish function upon the collosion
+    }); 
 
     this.balls.push(newBall);
 }
@@ -114,12 +118,14 @@ draw()
 
 
 //Updates the canvas after each animation frame
+//Generate the game loop
 update()
 {
     this.draw();
     this.requestId = requestAnimationFrame(this.update.bind(this));
 }
 
+//To exit the game
 stop()
 {
     if(this.requestId)

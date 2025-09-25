@@ -4,7 +4,8 @@ import { WIDTH } from "../game/constants";
 import { pad } from "../game/padding";
 import { useNavigate } from "react-router-dom";
 import { Simulation } from "../components/Simulation";
-import { Quotes } from "../components";
+import {Quotes } from "../components";
+
 
 export function Home() {
   const navigate = useNavigate();
@@ -64,10 +65,10 @@ export function Home() {
   return (
     <div className="">
       <div className="flex flex-col lg:flex-row  items-center justify-between ">
+         <Quotes />
         <Simulation />
-        <Quotes />
       </div>
-     
     </div>
   );
 }
+

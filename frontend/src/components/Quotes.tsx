@@ -4,7 +4,7 @@ import { Button } from "../ui";
 export const Quotes = () => {
   const navigate = useNavigate();
   return (
-    <div className="flex mx-16 flex-col justify-center pb-10 ">
+    <div className="flex mx-16 flex-col justify-center pb-10 pl-0 lg:pl-64">
       <h1 className="text-6xl font-bold">Play Plinko, Earn More!</h1>
       <h3 className="mt-4 text-xl mb-4">
         <hr></hr>
@@ -21,4 +21,4 @@ export const Quotes = () => {
       </Button>
     </div>
   );
-};  
+};

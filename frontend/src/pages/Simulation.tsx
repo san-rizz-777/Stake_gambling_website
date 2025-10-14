@@ -4,7 +4,7 @@ import { WIDTH } from "../game/constants";
 import { pad } from "../game/padding";
 
 export function Simulation() {
-  const canvasRef = useRef<any>();
+  const canvasRef = useRef<any>(null);
   let [outputs, setOutputs] = useState<{ [key: number]: number[] }>({
     0: [],
     1: [],

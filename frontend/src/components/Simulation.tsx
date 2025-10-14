@@ -5,7 +5,7 @@ import { WIDTH } from "../game/constants";
 import { useNavigate } from "react-router-dom";
 
 //Stores the location of dropping to determine which multiplier ball goes
-export function Simulation() {
+export function Simulation()  {
 
     const navigate = useNavigate();
     

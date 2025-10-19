@@ -36,32 +36,41 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
+  padding-top: 64px; /* Fixed navbar height */
   min-width: 320px;
   min-height: 100vh;
   background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Stake-like green theme */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color);
+  background: rgba(0, 231, 1, 0.3);
   border-radius: 4px;
+  transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
+  background: rgba(0, 231, 1, 0.5);
 }
 
+/* Links */
 a {
   font-weight: 500;
   color: var(--accent-primary);
@@ -74,6 +83,7 @@ a:hover {
   text-shadow: 0 0 8px var(--accent-primary);
 }
 
+/* Typography */
 h1, h2, h3, h4, h5, h6 {
   color: var(--text-primary);
   font-weight: 700;
@@ -94,6 +104,7 @@ p {
   line-height: 1.6;
 }
 
+/* Buttons */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -104,7 +115,7 @@ button {
   background: linear-gradient(135deg, var(--accent-primary) 0%, #00c400 100%);
   color: var(--bg-primary);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   text-transform: uppercase;
@@ -142,6 +153,50 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
+/* Input fields - Enhanced Stake-like styling */
+input[type="number"],
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+input[type="number"]:hover,
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover {
+  border-color: rgba(0, 231, 1, 0.5);
+  box-shadow: 0 0 0 3px rgba(0, 231, 1, 0.1);
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 4px rgba(0, 231, 1, 0.2);
+  background: var(--bg-secondary);
+}
+
+/* Remove number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 /* Gambling-specific animations */
 @keyframes glow {
   0%, 100% { 
@@ -158,12 +213,36 @@ button:focus-visible {
   100% { transform: scale(1); }
 }
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
 }
 
 .animate-pulse-custom {
   animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in;
 }
 
 /* Custom utility classes */
@@ -186,6 +265,26 @@ button:focus-visible {
   box-shadow: 0 0 10px var(--accent-primary), inset 0 0 10px rgba(0, 231, 1, 0.1);
 }
 
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 231, 1, 0.2);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+::-moz-selection {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   :root {
@@ -198,6 +297,24 @@ button:focus-visible {
   
   button {
     padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  body {
+    padding-top: 64px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-top: 60px;
+  }
+  
+  input[type="number"],
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    padding: 0.6rem 0.8rem;
     font-size: 0.9rem;
   }
 }
@@ -219,4 +336,59 @@ button:focus-visible {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 231, 1, 0.2);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip styling */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 0.5rem 0.75rem;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Disable text selection on buttons and interactive elements */
+button,
+.no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

@@ -1,5 +1,5 @@
 /*
-...This file basically manages multiple balls and connects the Ball and Siuimulation component.
+...This file basically manages multiple balls and connects the Ball and Simulation component.
 */
 
 import  {HEIGHT, WIDTH, ballRadius, obstacleRadius, sinkWidth} from "../constants";

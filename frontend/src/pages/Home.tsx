@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { Simulation } from "../components/Simulation";
 import {Quotes } from "../components";
 
-
 export function Home() {
   const navigate = useNavigate();
 

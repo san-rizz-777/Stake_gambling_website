@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { outcomes } from "./outcomes.ts";
+import { outcomes } from "./outcomes";
 
 const app = express();
 app.use(cors());

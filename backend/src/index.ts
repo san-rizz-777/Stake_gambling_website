@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import { outcomes } from "./outcomes";
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 
 const app = express();
 app.use(cors());
@@ -18,6 +20,7 @@ mongoose.connect(MONGODB_URI)
 const userSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
+  password: {type: String, required: true},
   balance: { type: Number, default: 1000 },
   totalWagered: { type: Number, default: 0 },
   totalWon: { type: Number, default: 0 },
@@ -98,6 +101,38 @@ app.post("/api/users/register", async (req, res) => {
     res.status(500).json({ error: "Failed to create user" });
   }
 });
+
+///create a login post route
+app.post("/api/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body
+
+    // Find user in database
+    const user = await User.findOne({ email })
+    if (!user) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Compare password
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid credentials" })
+    }
+
+    // Create JWT token
+    const token = jwt.sign(
+        { userId: user._id, email: user.email },
+        process.env.JWT_SECRET || "your-secret-key",
+        { expiresIn: "7d" }
+    )
+    res.json({
+      token,
+      user: { id: user._id, email: user.email, username: user.username }
+    })
+  } catch (error) {
+    res.status(500).json({ error: "Login failed" })
+  }
+})
 
 // Get user profile
 app.get("/api/users/:userId", async (req, res) => {

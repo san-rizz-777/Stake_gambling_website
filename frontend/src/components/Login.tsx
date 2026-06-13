@@ -12,7 +12,7 @@ export function Login() {
   const navigate = useNavigate()
 
 
-  const BASE_URL = import.meta.env.API_BASE_URL;
+  const BASE_URL = import.meta.env.VITE_API_URL;
 
 
   const handleSubmit = async (e: React.FormEvent) => {

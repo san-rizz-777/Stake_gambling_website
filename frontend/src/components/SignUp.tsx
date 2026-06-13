@@ -11,7 +11,7 @@ export function Signup() {
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     //@ts-ignore
-    const BASE_URL = import.meta.env.API_BASE_URL
+    const BASE_URL = import.meta.env.VITE_API_URL
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()

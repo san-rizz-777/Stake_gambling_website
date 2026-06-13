@@ -80,7 +80,7 @@ const verifyUser = async (req: any, res: any, next: any) => {
 // Register new user
 app.post("/api/users/register", async (req, res) => {
   try {
-    const { username, email, password, initialBalance } = req.body;
+    const { username, email, password } = req.body;
 
     // Validate input
     if (!username || !email || !password) {
@@ -99,7 +99,7 @@ app.post("/api/users/register", async (req, res) => {
       username,
       email,
       password: hashedPassword,  // Store hashed password
-      balance: initialBalance || 1000
+      balance:  5000
     });
 
     await user.save();

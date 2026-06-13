@@ -10,6 +10,8 @@ export function Signup() {
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
+    //@ts-ignore
+    const BASE_URL = import.meta.env.API_BASE_URL
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -23,7 +25,7 @@ export function Signup() {
         setLoading(true)
 
         try {
-            const response = await fetch("http://localhost:3000/api/users/register", {
+            const response = await fetch(`{BASE_URL}/api/users/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password }),

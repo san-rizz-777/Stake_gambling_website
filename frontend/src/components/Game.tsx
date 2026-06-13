@@ -73,8 +73,8 @@ export function Game() {
     
     try {
       const [userResponse, statsResponse] = await Promise.all([
-        axios.get(`${API_URL}/users/${uid}`),
-        axios.get(`${API_URL}/users/${uid}/stats`)
+        axios.get(`${API_URL}/api/users/${uid}`),
+        axios.get(`${API_URL}/api/users/${uid}/stats`)
       ]);
       
       setBalance(userResponse.data.balance);
@@ -119,7 +119,7 @@ export function Game() {
 
     try {
       const response = await axios.post<GameResult>(
-        `${API_URL}/game/play`,
+        `${API_URL}/api/game/play`,
         { betAmount },
         { headers: { "user-id": userId } }
       );
@@ -157,7 +157,7 @@ export function Game() {
     if (!userId || userId.trim() === "") return; // Guard clause
     
     try {
-      const response = await axios.get(`${API_URL}/game/history/${userId}?limit=5`);
+      const response = await axios.get(`${API_URL}/api/game/history/${userId}?limit=5`);
       setGameHistory(response.data.history);
     } catch (error) {
       console.error("Failed to fetch history:", error);

@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { Button } from "../ui/Button"
 
 export function Signup() {
-    const [name, setName] = useState("")
+    const [username, setUserName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -28,12 +28,12 @@ export function Signup() {
             const response = await fetch(`${BASE_URL}/api/users/register`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ username, email, password }),
             })
 
             if (!response.ok) {
                 const data = await response.json()
-                throw new Error(data.error || "Sign up failed")
+                throw new Error(data.error || "Sign up fanitialBalance ||iled")
             }
 
             const { token, user } = await response.json()
@@ -77,14 +77,14 @@ export function Signup() {
                     {/* Name */}
                     <div className="mb-5">
                         <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-300">
-                            Name
+                            Username
                         </label>
                         <input
                             id="name"
                             type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            placeholder="Your name"
+                            value={username}
+                            onChange={(e) => setUserName(e.target.value)}
+                            placeholder="Your Username"
                             className="h-11 w-full rounded-lg border border-white/10 bg-gray-950/60 px-3 text-sm text-white placeholder:text-gray-500 transition-colors focus:border-green-500/60"
                         />
                     </div>

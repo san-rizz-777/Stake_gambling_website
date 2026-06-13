@@ -4,14 +4,17 @@ import mongoose from "mongoose";
 import { outcomes } from "./outcomes";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
+// @ts-ignore
+import 'dotenv/config'
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/plinko-game?replicaSet=rs0&directConnection=true";
+const MONGODB_URI = process.env.DATABASE_URL
 
+// @ts-ignore
 mongoose.connect(MONGODB_URI)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("MongoDB connection error:", err));
@@ -73,31 +76,42 @@ const verifyUser = async (req: any, res: any, next: any) => {
   }
 };
 
-// ===== USER ROUTES =====
-
+// USER ROUTES
 // Register new user
 app.post("/api/users/register", async (req, res) => {
   try {
-    const { username, email, initialBalance } = req.body;
+    const { username, email, password, initialBalance } = req.body;
+
+    // Validate input
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: "Username, email, and password are required" });
+    }
 
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
     if (existingUser) {
       return res.status(400).json({ error: "Username or email already exists" });
     }
 
+    // Hash password with bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = new User({
       username,
       email,
+      password: hashedPassword,  // Store hashed password
       balance: initialBalance || 1000
     });
 
     await user.save();
-    res.status(201).json({ 
+    res.status(201).json({
       message: "User created successfully",
       userId: user._id,
+      username: user.username,
+      email: user.email,
       balance: user.balance
     });
   } catch (error) {
+    console.error("Register error:", error);
     res.status(500).json({ error: "Failed to create user" });
   }
 });
@@ -110,13 +124,13 @@ app.post("/api/auth/login", async (req, res) => {
     // Find user in database
     const user = await User.findOne({ email })
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" })
+      return res.status(401).json({ error: "User not found." })
     }
 
     // Compare password
     const isPasswordValid = await bcrypt.compare(password, user.password)
     if (!isPasswordValid) {
-      return res.status(401).json({ error: "Invalid credentials" })
+      return res.status(401).json({ error: "Invalid password!!!!" });
     }
 
     // Create JWT token

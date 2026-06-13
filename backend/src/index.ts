@@ -231,7 +231,7 @@ app.get("/api/users/:userId/stats", async (req, res) => {
   }
 });
 
-// ===== GAME ROUTES =====
+//  GAME ROUTES
 
 // Play game
 app.post("/api/game/play", verifyUser, async (req: any, res: any) => {

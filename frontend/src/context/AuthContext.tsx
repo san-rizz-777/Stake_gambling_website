@@ -19,13 +19,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [token, setToken] = useState<string | null>(null)
 
     useEffect(() => {
-        // Check if user is already logged in
-        const storedToken = localStorage.getItem("token")
-        const storedUser = localStorage.getItem("user")
+        try {
+            // Check if user is already logged in
+            const storedToken = localStorage.getItem("token")
+            const storedUser = localStorage.getItem("user")
 
-        if (storedToken && storedUser) {
-            setToken(storedToken)
-            setUser(JSON.parse(storedUser))
+            if (storedToken && storedUser) {
+                setToken(storedToken)
+                setUser(JSON.parse(storedUser))
+            }
+        } catch (error) {
+            // Clear corrupted data
+            console.error("Auth error:", error)
+            localStorage.removeItem("token")
+            localStorage.removeItem("user")
+            setUser(null)
+            setToken(null)
         }
     }, [])
 

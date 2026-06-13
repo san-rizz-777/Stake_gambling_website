@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import { outcomes } from "./outcomes";
+import { outcomes } from "./outcomes.js";
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 // @ts-ignore
